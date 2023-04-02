@@ -20,11 +20,16 @@
   },
   "homepage": "https://github.com/menhera-org/weeg-containers#readme",
   "devDependencies": {
+    "@types/webextension-polyfill": "^0.10.0",
     "typescript": "^5.0.3"
   },
   "type": "module",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "webextension-polyfill": "^0.10.0"
+    "webextension-polyfill": "^0.10.0",
+    "weeg-events": "^0.1.0",
+    "weeg-storage": "^0.3.0",
+    "weeg-types": "^0.1.0",
+    "weeg-utils": "^0.2.0"
   }
 }
