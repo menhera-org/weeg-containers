@@ -24,17 +24,20 @@ import { CookieStore } from "../CookieStore/CookieStore";
 
 type StorageType = Map<string, ExtensibleAttributeDictionary>;
 
-const storage = new StorageItem<StorageType>("weeg.containerAttributes", new Map(), StorageItem.AREA_LOCAL);
-const contextualIdentityFactory = new ContextualIdentityFactory();
-contextualIdentityFactory.onRemoved.addListener(async (identity) => {
-  const value = await storage.getValue();
-  value.delete(identity.cookieStore.id);
-  await storage.setValue(value);
-});
-
 export class ContainerAttributeProvider implements ExtensibleAttributeProvider<CookieStore> {
+  private readonly storage = new StorageItem<StorageType>("weeg.containerAttributes", new Map(), StorageItem.AREA_LOCAL);
+  private readonly contextualIdentityFactory = new ContextualIdentityFactory();
+
+  public constructor() {
+    this.contextualIdentityFactory.onRemoved.addListener(async (identity) => {
+      const value = await this.storage.getValue();
+      value.delete(identity.cookieStore.id);
+      await this.storage.setValue(value);
+    });
+  }
+
   public async getAttributeSets(cookieStores: Iterable<CookieStore>): Promise<ExtensibleAttributeSet<CookieStore>[]> {
-    const storageValue = await storage.getValue();
+    const storageValue = await this.storage.getValue();
     const sets: ExtensibleAttributeSet<CookieStore>[] = [];
     for (const cookieStore of cookieStores) {
       const attributesDictionary = storageValue.get(cookieStore.id) || {};
@@ -44,10 +47,10 @@ export class ContainerAttributeProvider implements ExtensibleAttributeProvider<C
   }
 
   public async saveAttributeSets(attributeSets: Iterable<ExtensibleAttributeSet<CookieStore>>): Promise<void> {
-    const storageValue = await storage.getValue();
+    const storageValue = await this.storage.getValue();
     for (const attributeSet of attributeSets) {
       storageValue.set(attributeSet.target.id, attributeSet.getAttributeDictionary());
     }
-    await storage.setValue(storageValue);
+    await this.storage.setValue(storageValue);
   }
 }
