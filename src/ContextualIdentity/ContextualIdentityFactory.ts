@@ -52,14 +52,14 @@ export class ContextualIdentityFactory {
     }
   }
 
-  public fromWebExtensionsContextualIdentity(identity: browser.ContextualIdentities.ContextualIdentity, themeCallback?: ThemeCallback): ContextualIdentity {
-    return ContextualIdentity.fromWebExtensionsContextualIdentity(identity, themeCallback);
+  public fromWebExtensionsContextualIdentity(identity: browser.ContextualIdentities.ContextualIdentity): ContextualIdentity {
+    return ContextualIdentity.fromWebExtensionsContextualIdentity(identity, this.themeCallback);
   }
 
-  public async get(cookieStoreId: string, themeCallback?: ThemeCallback): Promise<ContextualIdentity> {
+  public async get(cookieStoreId: string): Promise<ContextualIdentity> {
     ContextualIdentity.checkForApi();
     const identity = await browser.contextualIdentities.get(cookieStoreId);
-    return ContextualIdentity.fromWebExtensionsContextualIdentity(identity, themeCallback);
+    return ContextualIdentity.fromWebExtensionsContextualIdentity(identity, this.themeCallback);
   }
 
   /**
