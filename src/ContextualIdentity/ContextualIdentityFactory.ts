@@ -84,6 +84,12 @@ export class ContextualIdentityFactory {
     await browser.contextualIdentities.remove(cookieStoreId);
   }
 
+  public async setParams(cookieStoreId: string, params: Partial<ContextualIdentityParams>): Promise<ContextualIdentity> {
+    ContextualIdentity.checkForApi();
+    const identity = await browser.contextualIdentities.update(cookieStoreId, params);
+    return ContextualIdentity.fromWebExtensionsContextualIdentity(identity, this.themeCallback);
+  }
+
   public construct(cookieStore: CookieStore, attributes: ContextualIdentityParams): ContextualIdentity {
     return new ContextualIdentity(cookieStore, attributes, this.themeCallback);
   }
