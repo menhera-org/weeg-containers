@@ -1,6 +1,6 @@
 {
   "name": "weeg-containers",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "WebExtensions Experts Groups containers library",
   "main": "dist/index.js",
   "scripts": {
@@ -29,6 +29,6 @@
     "weeg-events": "^0.4.0",
     "weeg-storage": "^0.5.0",
     "weeg-types": "^0.4.0",
-    "weeg-utils": "^0.10.0"
+    "weeg-utils": "^0.11.0"
   }
 }
